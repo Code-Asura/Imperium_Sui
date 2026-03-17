@@ -3705,14 +3705,8 @@ class _HabitSnapshot {
       timeLabel: _readString(map['timeLabel']),
       streakDays: _readInt(map['streakDays']),
       focusMinutes: _readInt(map['focusMinutes'], fallback: 10),
-      icon: IconData(
+      icon: _habitIconFromCodePoint(
         _readInt(map['iconCodePoint'], fallback: Icons.flag_rounded.codePoint),
-        fontFamily: _readString(
-          map['iconFontFamily'],
-          fallback: 'MaterialIcons',
-        ),
-        fontPackage: _nullableString(map['iconFontPackage']),
-        matchTextDirection: _readBool(map['iconMatchTextDirection']),
       ),
       tone: _habitToneFromName(
         _readString(map['tone'], fallback: _HabitTone.mint.name),
@@ -3829,6 +3823,23 @@ const _draftHabitIcons = [
   Icons.bedtime_rounded,
   Icons.auto_awesome_rounded,
 ];
+
+const _habitPersistedIcons = [
+  ..._draftHabitIcons,
+  Icons.self_improvement_rounded,
+  Icons.bolt_rounded,
+  Icons.local_drink_rounded,
+  Icons.nightlight_round,
+];
+
+IconData _habitIconFromCodePoint(int codePoint) {
+  for (final icon in _habitPersistedIcons) {
+    if (icon.codePoint == codePoint) {
+      return icon;
+    }
+  }
+  return Icons.flag_rounded;
+}
 
 // ignore: unused_element
 const _demoHabits = [

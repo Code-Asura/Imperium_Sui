@@ -1796,17 +1796,11 @@ class _JournalFolderSnapshot {
       ),
       title: _journalReadString(map['title'], fallback: 'Личный архив'),
       entryCount: _journalReadInt(map['entryCount']),
-      icon: IconData(
+      icon: _journalFolderIconFromCodePoint(
         _journalReadInt(
           map['iconCodePoint'],
           fallback: Icons.inventory_2_rounded.codePoint,
         ),
-        fontFamily: _journalReadString(
-          map['iconFontFamily'],
-          fallback: 'MaterialIcons',
-        ),
-        fontPackage: _journalNullableString(map['iconFontPackage']),
-        matchTextDirection: _journalReadBool(map['iconMatchTextDirection']),
       ),
       accent: Color(
         _journalReadInt(
@@ -1940,6 +1934,15 @@ const List<IconData> _draftFolderIcons = [
   Icons.library_books_rounded,
   Icons.archive_rounded,
 ];
+
+IconData _journalFolderIconFromCodePoint(int codePoint) {
+  for (final icon in _draftFolderIcons) {
+    if (icon.codePoint == codePoint) {
+      return icon;
+    }
+  }
+  return Icons.inventory_2_rounded;
+}
 
 _JournalFolderSnapshot _buildDefaultJournalFolder() {
   return const _JournalFolderSnapshot(
